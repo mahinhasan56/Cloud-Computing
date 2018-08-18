@@ -1,0 +1,128 @@
+[root@group5-31 cse491]# xz -d centos.raw.xz
+xz: centos.raw.xz: No such file or directory
+[root@group5-31 cse491]# xz -d /home/cse491/Downloads/centos.raw.xz
+[root@group5-31 cse491]# euca-install-image -b mybucket -r x86_64 -i /home/cse491/Downloads/centos.raw.xz.raw -n my-image-name --virtualization-type hvm --region admin@group5-31.cse.cloudlab.bu
+euca-install-image: error: No such file or directory: /home/cse491/Downloads/centos.raw.xz.raw
+[root@group5-31 cse491]# euca-install-image -b mybucket -r x86_64 -i /home/cse491/Downloads/centos.raw -n my-image-name --virtualization-type hvm --region admin@group5-31.cse.cloudlab.bu
+/var/tmp/bundle-YOQ8gu/centos.raw.part.00 100% |=================================================================|  10.00 MB  12.96 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.01 100% |=================================================================|  10.00 MB  34.47 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.02 100% |=================================================================|  10.00 MB  34.50 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.03 100% |=================================================================|  10.00 MB  34.61 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.04 100% |=================================================================|  10.00 MB  29.49 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.05 100% |=================================================================|  10.00 MB  34.61 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.06 100% |=================================================================|  10.00 MB  29.54 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.07 100% |=================================================================|  10.00 MB  34.52 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.08 100% |=================================================================|  10.00 MB  34.65 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.09 100% |=================================================================|  10.00 MB  34.69 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.10 100% |=================================================================|  10.00 MB  34.48 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.11 100% |=================================================================|  10.00 MB  34.56 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.12 100% |=================================================================|  10.00 MB  41.20 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.13 100% |=================================================================|  10.00 MB  34.62 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.14 100% |=================================================================|  10.00 MB  34.51 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.15 100% |=================================================================|  10.00 MB  34.54 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.16 100% |=================================================================|  10.00 MB  29.67 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.17 100% |=================================================================|  10.00 MB  34.64 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.18 100% |=================================================================|  10.00 MB  34.71 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.19 100% |=================================================================|  10.00 MB  34.69 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.20 100% |=================================================================|  10.00 MB  18.87 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.21 100% |=================================================================|  10.00 MB  34.63 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.22 100% |=================================================================|  10.00 MB  41.47 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.23 100% |=================================================================|  10.00 MB  34.60 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.part.24 100% |=================================================================|   5.70 MB  23.71 MB/s Time: 0:00:00
+/var/tmp/bundle-YOQ8gu/centos.raw.manifest.xml 100% |============================================================|   5.01 kB  33.92 kB/s Time: 0:00:00
+euca-install-image: error (InvalidAMIName.Duplicate): AMI name my-image-name is already in use by EMI emi-337c027d
+[root@group5-31 cse491]# euca-install-image -b mybucket -r x86_64 -i /home/cse491/Downloads/centos.raw -n centu --virtualization-type hvm --region admin@group5-31.cse.cloudlab.bu
+/var/tmp/bundle-b7ecmr/centos.raw.part.00 100% |=================================================================|  10.00 MB  34.47 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.01 100% |=================================================================|  10.00 MB  29.68 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.02 100% |=================================================================|  10.00 MB  29.42 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.03 100% |=================================================================|  10.00 MB  41.58 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.04 100% |=================================================================|  10.00 MB  34.53 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.05 100% |=================================================================|  10.00 MB  34.62 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.06 100% |=================================================================|  10.00 MB  41.26 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.07 100% |=================================================================|  10.00 MB  34.61 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.08 100% |=================================================================|  10.00 MB  34.57 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.09 100% |=================================================================|  10.00 MB  41.58 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.10 100% |=================================================================|  10.00 MB  41.54 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.11 100% |=================================================================|  10.00 MB  34.72 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.12 100% |=================================================================|  10.00 MB  25.95 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.13 100% |=================================================================|  10.00 MB  34.54 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.14 100% |=================================================================|  10.00 MB  34.56 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.15 100% |=================================================================|  10.00 MB  34.59 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.16 100% |=================================================================|  10.00 MB  34.64 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.17 100% |=================================================================|  10.00 MB  34.27 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.18 100% |=================================================================|  10.00 MB  34.54 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.19 100% |=================================================================|  10.00 MB  41.62 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.20 100% |=================================================================|  10.00 MB  34.60 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.21 100% |=================================================================|  10.00 MB  41.55 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.22 100% |=================================================================|  10.00 MB  34.62 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.23 100% |=================================================================|  10.00 MB  29.68 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.part.24 100% |=================================================================|   5.70 MB  29.61 MB/s Time: 0:00:00
+/var/tmp/bundle-b7ecmr/centos.raw.manifest.xml 100% |============================================================|   5.01 kB  33.97 kB/s Time: 0:00:00
+IMAGE	emi-ffa0cf40
+[root@group5-31 cse491]# euca-create-keypair sshlogin > sshlogin
+[root@group5-31 cse491]# chmod 600 sshlogin
+[root@group5-31 cse491]# euca-authorize -P icmp -t -1:-1 -s 0.0.0.0/0 default
+GROUP	default
+PERMISSION	default	ALLOWS	icmp	-1	-1	FROM	CIDR	0.0.0.0/0
+[root@group5-31 cse491]# euca-authorize -P tcp -p 22 default
+GROUP	default
+PERMISSION	default	ALLOWS	tcp	22	22	FROM	CIDR	0.0.0.0/0
+[root@group5-31 cse491]# euca-run-instances -k sshlogin emi-ffa0cf40
+RESERVATION	r-4526f346	000575455151	default
+INSTANCE	i-e99e32ca	emi-ffa0cf40	euca-172-16-34-124.eucalyptus.group5-31.cse.cloudlab.bu	euca-10-10-79-82.eucalyptus.internal	pending	sshlogin	0		m1.small	2017-11-19T04:09:44.346Z	cluster1				monitoring-disabled	172.16.34.124	10.10.79.82			instance-store					hvm			sg-5b02086d			x86_64
+[root@group5-31 cse491]# euca-describe-instances
+RESERVATION	r-4526f346	000575455151	default
+INSTANCE	i-e99e32ca	emi-ffa0cf40	euca-172-16-34-124.eucalyptus.group5-31.cse.cloudlab.bu	euca-10-10-79-82.eucalyptus.internal	pending	sshlogin	0		m1.small	2017-11-19T04:09:44.346Z	cluster1				monitoring-disabled	172.16.34.124	10.10.79.82			instance-store					hvm			sg-5b02086d			x86_64
+TAG	instance	i-e99e32ca	euca:node	172.16.34.32
+[root@group5-31 cse491]# euca-describe-instances
+RESERVATION	r-4526f346	000575455151	default
+INSTANCE	i-e99e32ca	emi-ffa0cf40	euca-172-16-34-124.eucalyptus.group5-31.cse.cloudlab.bu	euca-10-10-79-82.eucalyptus.internal	pending	sshlogin	0		m1.small	2017-11-19T04:09:44.346Z	cluster1				monitoring-disabled	172.16.34.124	10.10.79.82			instance-store					hvm			sg-5b02086d			x86_64
+TAG	instance	i-e99e32ca	euca:node	172.16.34.32
+[root@group5-31 cse491]# euca-describe-instances
+RESERVATION	r-4526f346	000575455151	default
+INSTANCE	i-e99e32ca	emi-ffa0cf40	euca-172-16-34-124.eucalyptus.group5-31.cse.cloudlab.bu	euca-10-10-79-82.eucalyptus.internal	pending	sshlogin	0		m1.small	2017-11-19T04:09:44.346Z	cluster1				monitoring-disabled	172.16.34.124	10.10.79.82			instance-store					hvm			sg-5b02086d			x86_64
+TAG	instance	i-e99e32ca	euca:node	172.16.34.32
+[root@group5-31 cse491]# euca-describe-instances
+RESERVATION	r-4526f346	000575455151	default
+INSTANCE	i-e99e32ca	emi-ffa0cf40	euca-172-16-34-124.eucalyptus.group5-31.cse.cloudlab.bu	euca-10-10-79-82.eucalyptus.internal	running	sshlogin	0		m1.small	2017-11-19T04:09:44.346Z	cluster1				monitoring-disabled	172.16.34.124	10.10.79.82			instance-store					hvm			sg-5b02086d			x86_64
+TAG	instance	i-e99e32ca	euca:node	172.16.34.32
+[root@group5-31 cse491]# ssh -i sshlogin euca-172-16-34-124.eucalyptus.group5-31.cse.cloudlab.bu
+The authenticity of host 'euca-172-16-34-124.eucalyptus.group5-31.cse.cloudlab.bu (172.16.34.124)' can't be established.
+RSA key fingerprint is 60:3d:c1:a9:18:a6:3b:9a:3e:35:d0:1f:b6:a2:61:44.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'euca-172-16-34-124.eucalyptus.group5-31.cse.cloudlab.bu,172.16.34.124' (RSA) to the list of known hosts.
+[root@euca-10-10-79-82 ~]# euca-terminate-instances i-e99e32ca
+-bash: euca-terminate-instances: command not found
+[root@euca-10-10-79-82 ~]# exit
+logout
+Connection to euca-172-16-34-124.eucalyptus.group5-31.cse.cloudlab.bu closed.
+[root@group5-31 cse491]# euca-terminate-instances i-e99e32ca
+INSTANCE	i-e99e32ca	running	shutting-down
+[root@group5-31 cse491]# euca-describe-instances
+RESERVATION	r-4526f346	000575455151	default
+INSTANCE	i-e99e32ca	emi-ffa0cf40	euca-172-16-34-124.eucalyptus.group5-31.cse.cloudlab.bu	euca-10-10-79-82.eucalyptus.internal	shutting-down	sshlogin	0		m1.small	2017-11-19T04:09:44.346Z	cluster1				monitoring-disabled	172.16.34.124	10.10.79.82			instance-store					hvm			sg-5b02086d			x86_64
+TAG	instance	i-e99e32ca	euca:node	172.16.34.32
+[root@group5-31 cse491]# euca-describe-instances
+RESERVATION	r-4526f346	000575455151	default
+INSTANCE	i-e99e32ca	emi-ffa0cf40	euca-172-16-34-124.eucalyptus.group5-31.cse.cloudlab.bu	euca-10-10-79-82.eucalyptus.internal	shutting-down	sshlogin	0		m1.small	2017-11-19T04:09:44.346Z	cluster1				monitoring-disabled	172.16.34.124	10.10.79.82			instance-store					hvm			sg-5b02086d			x86_64
+TAG	instance	i-e99e32ca	euca:node	172.16.34.32
+[root@group5-31 cse491]# euca-describe-instances
+RESERVATION	r-4526f346	000575455151	default
+INSTANCE	i-e99e32ca	emi-ffa0cf40	euca-172-16-34-124.eucalyptus.group5-31.cse.cloudlab.bu	euca-10-10-79-82.eucalyptus.internal	shutting-down	sshlogin	0		m1.small	2017-11-19T04:09:44.346Z	cluster1				monitoring-disabled	172.16.34.124	10.10.79.82			instance-store					hvm			sg-5b02086d			x86_64
+TAG	instance	i-e99e32ca	euca:node	172.16.34.32
+[root@group5-31 cse491]# euca-describe-instances
+RESERVATION	r-4526f346	000575455151	default
+INSTANCE	i-e99e32ca	emi-ffa0cf40	euca-172-16-34-124.eucalyptus.group5-31.cse.cloudlab.bu	euca-10-10-79-82.eucalyptus.internal	shutting-down	sshlogin	0		m1.small	2017-11-19T04:09:44.346Z	cluster1				monitoring-disabled	172.16.34.124	10.10.79.82			instance-store					hvm			sg-5b02086d			x86_64
+TAG	instance	i-e99e32ca	euca:node	172.16.34.32
+[root@group5-31 cse491]# euca-describe-instances
+RESERVATION	r-4526f346	000575455151	default
+INSTANCE	i-e99e32ca	emi-ffa0cf40	euca-172-16-34-124.eucalyptus.group5-31.cse.cloudlab.bu	euca-10-10-79-82.eucalyptus.internal	shutting-down	sshlogin	0		m1.small	2017-11-19T04:09:44.346Z	cluster1				monitoring-disabled	172.16.34.124	10.10.79.82			instance-store					hvm			sg-5b02086d			x86_64
+TAG	instance	i-e99e32ca	euca:node	172.16.34.32
+[root@group5-31 cse491]# euca-describe-instances
+RESERVATION	r-4526f346	000575455151	default
+INSTANCE	i-e99e32ca	emi-ffa0cf40	euca-172-16-34-124.eucalyptus.group5-31.cse.cloudlab.bu	euca-10-10-79-82.eucalyptus.internal	shutting-down	sshlogin	0		m1.small	2017-11-19T04:09:44.346Z	cluster1				monitoring-disabled	172.16.34.124	10.10.79.82			instance-store					hvm			sg-5b02086d			x86_64
+TAG	instance	i-e99e32ca	euca:node	172.16.34.32
+[root@group5-31 cse491]# euca-describe-instances
+RESERVATION	r-4526f346	000575455151	
+INSTANCE	i-e99e32ca	emi-ffa0cf40			terminated	sshlogin	0		m1.small	2017-11-19T04:09:44.346Z	cluster1				monitoring-disabled					instance-store					hvm							x86_64
+

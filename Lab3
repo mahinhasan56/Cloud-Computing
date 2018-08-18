@@ -1,0 +1,827 @@
+[root@group18-41 ~]# systemctl start eucalyptus-cloud
+[root@group18-41 ~]# systemctl enable eucalyptus-cloud
+[root@group18-41 ~]# 
+[root@group18-41 ~]# systemctl start eucalyptus-cc
+[root@group18-41 ~]# systemctl enable eucalyptus-cc
+[root@group18-41 ~]# 
+[root@group18-41 ~]# systemctl start eucanetd
+[root@group18-41 ~]# systemctl enable eucanetd
+[root@group18-41 ~]# 
+[root@group18-41 ~]# systemctl start tgtd
+[root@group18-41 ~]# systemctl enable tgtd
+[root@group18-41 ~]# eval `clcadmin-assume-system-credentials`
+[root@group18-41 ~]# export AWS_DEFAULT_REGION=group18-41.cse.cloudlab.bu
+[root@group18-41 ~]# euserv-describe-services
+SERVICE  autoscaling           API00       API00.autoscaling     enabled   
+SERVICE  autoscalingbackend    eucalyptus  172.16.34.41          enabled   
+SERVICE  bootstrap             bootstrap   172.16.34.41          enabled   
+SERVICE  cloudformation        API00       API00.cloudformation  enabled   
+SERVICE  cloudwatch            API00       API00.cloudwatch      enabled   
+SERVICE  cloudwatchbackend     eucalyptus  172.16.34.41          enabled   
+SERVICE  cluster               cluster1    CC00                  enabled   
+SERVICE  compute               API00       API00.compute         enabled   
+SERVICE  dns                   API00       API00.dns             enabled   
+SERVICE  euare                 API00       API00.euare           enabled   
+SERVICE  eucalyptus            eucalyptus  172.16.34.41          enabled   
+SERVICE  identity              API00       API00.identity        enabled   
+SERVICE  imaging               API00       API00.imaging         enabled   
+SERVICE  imagingbackend        eucalyptus  172.16.34.41          notready  
+SERVICE  loadbalancing         API00       API00.loadbalancing   enabled   
+SERVICE  loadbalancingbackend  eucalyptus  172.16.34.41          enabled   
+SERVICE  notifications         eucalyptus  172.16.34.41          enabled   
+SERVICE  objectstorage         API00       API00.objectstorage   enabled   
+SERVICE  pollednotifications   eucalyptus  172.16.34.41          enabled   
+SERVICE  reporting             bootstrap   172.16.34.41          enabled   
+SERVICE  simpleworkflow        API00       API00.simpleworkflow  enabled   
+SERVICE  storage               cluster1    SC00                  enabled   
+SERVICE  tokens                API00       API00.tokens          enabled   
+SERVICE  user-api              API00       API00                 enabled   
+SERVICE  walrusbackend         walrus      W00                   enabled   
+[root@group18-41 ~]# euserv-describe-node-controllers
+NODE  cluster1  172.16.34.40  enabled    
+INSTANCE  i-fa9931bf      
+INSTANCE  i-c967c07c      
+INSTANCE  i-f5c30c2a      
+[root@group18-41 ~]# ntpdate -u 172.16.2.5
+14 Nov 08:23:20 ntpdate[5716]: step time server 172.16.2.5 offset 80.970429 sec
+[root@group18-41 ~]# euca-describe-images
+IMAGE	emi-1ecde757	mybucket/CentOS-6-x86_64-GenericCloud.raw.manifest.xml	000412364163	available	private	x86_64	machine				instance-store	hvm	
+IMAGE	emi-2251795c	mybucket/trusty-server-cloudimg-amd64-disk1.img.manifest.xml	000412364163	available	private	x86_64	machine			instance-store	hvm	
+IMAGE	emi-814625ff	mybucket/trusty-server-cloudimg-amd64-disk1.img.manifest.xml	000412364163	available	private	x86_64	machine			instance-store	hvm	
+IMAGE	emi-9d7a3577	mybucket/trusty-server-cloudimg-amd64-disk1.img.manifest.xml	000412364163	available	private	x86_64	machine			instance-store	hvm	
+IMAGE	emi-f7925a1c	eucalyptus-service-image-v2.69/eucalyptus-service-image.raw.manifest.xml	000412364163	available	private	x86_64	machineinstance-store	hvm	
+TAG	image	emi-f7925a1c	provides	imaging,loadbalancing
+TAG	image	emi-f7925a1c	type	eucalyptus-service-image
+TAG	image	emi-f7925a1c	version	2.69
+[root@group18-41 ~]# euca-run-instances -k sshlogin emi-1ecde757
+euca-run-instances: error (InvalidParameterCombination): Unable to run instance emi-1ecde757 in which the size 8589934592 bytes of the instance is greater than the vmType m1.small size 5 GB.
+[root@group18-41 ~]# euca-run-instances -k sshlogin emi-1ecde757 -t m1.medium
+RESERVATION	r-d0f02f56	000412364163	default
+INSTANCE	i-20b996c1	emi-1ecde757	euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-236-186.eucalyptus.internal	pending	sshlogin0		m1.medium	2017-11-14T02:25:30.931Z	cluster1	monitoring-disabled	172.16.34.88	10.10.236.186			instance-store					hvm			sg-3ccc590e	x86_64
+[root@group18-41 ~]# euca-describe-instances
+RESERVATION	r-d0f02f56	000412364163	default
+INSTANCE	i-20b996c1	emi-1ecde757	euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-236-186.eucalyptus.internal	pending	sshlogin0		m1.medium	2017-11-14T02:25:30.931Z	cluster1	monitoring-disabled	172.16.34.88	10.10.236.186			instance-store					hvm			sg-3ccc590e	x86_64
+TAG	instance	i-20b996c1	euca:node	172.16.34.40
+RESERVATION	r-e81c0edc	000412364163	default
+INSTANCE	i-f5c30c2a	emi-1ecde757	euca-172-16-34-87.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-236-170.eucalyptus.internal	running	sshlogin0		m1.medium	2017-11-12T02:41:41.728Z	cluster1	monitoring-disabled	172.16.34.87	10.10.236.170			instance-store					hvm			sg-3ccc590e	x86_64
+TAG	instance	i-f5c30c2a	euca:node	172.16.34.40
+RESERVATION	r-ee796a4e	000412364163	default
+INSTANCE	i-c967c07c	emi-1ecde757	euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-236-184.eucalyptus.internal	running	sshlogin0		m1.medium	2017-11-12T03:44:44.964Z	cluster1	monitoring-disabled	172.16.34.89	10.10.236.184			instance-store					hvm			sg-3ccc590e	x86_64
+TAG	instance	i-c967c07c	euca:node	172.16.34.40
+[root@group18-41 ~]# ping 172.16.34.89
+PING 172.16.34.89 (172.16.34.89) 56(84) bytes of data.
+^C
+--- 172.16.34.89 ping statistics ---
+17 packets transmitted, 0 received, 100% packet loss, time 15999ms
+
+[root@group18-41 ~]# ssh -i sshlogin centos@euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu
+ssh: connect to host euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu port 22: Connection timed out
+[root@group18-41 ~]# ssh -i sshlogin centos@euca-172-16-34-87.eucalyptus.group18-41.cse.cloudlab.bu
+ssh: connect to host euca-172-16-34-87.eucalyptus.group18-41.cse.cloudlab.bu port 22: Connection timed out
+[root@group18-41 ~]# euca-describe-images
+IMAGE	emi-1ecde757	mybucket/CentOS-6-x86_64-GenericCloud.raw.manifest.xml	000412364163	available	private	x86_64	machine				instance-store	hvm	
+IMAGE	emi-2251795c	mybucket/trusty-server-cloudimg-amd64-disk1.img.manifest.xml	000412364163	available	private	x86_64	machine			instance-store	hvm	
+IMAGE	emi-814625ff	mybucket/trusty-server-cloudimg-amd64-disk1.img.manifest.xml	000412364163	available	private	x86_64	machine			instance-store	hvm	
+IMAGE	emi-9d7a3577	mybucket/trusty-server-cloudimg-amd64-disk1.img.manifest.xml	000412364163	available	private	x86_64	machine			instance-store	hvm	
+IMAGE	emi-f7925a1c	eucalyptus-service-image-v2.69/eucalyptus-service-image.raw.manifest.xml	000412364163	available	private	x86_64	machineinstance-store	hvm	
+TAG	image	emi-f7925a1c	provides	imaging,loadbalancing
+TAG	image	emi-f7925a1c	type	eucalyptus-service-image
+TAG	image	emi-f7925a1c	version	2.69
+[root@group18-41 ~]# euca-run-instances -k sshlogin emi-1ecde757 -t m1.medium
+RESERVATION	r-6218eddf	000412364163	default
+INSTANCE	i-94738b3a	emi-1ecde757	euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-225-75.eucalyptus.internal	pending	sshlogin0		m1.medium	2017-11-14T02:35:40.066Z	cluster1	monitoring-disabled	172.16.34.88	10.10.225.75			instance-store					hvm			sg-3ccc590e	x86_64
+[root@group18-41 ~]# euca-describe-instances
+RESERVATION	r-6218eddf	000412364163	default
+INSTANCE	i-94738b3a	emi-1ecde757	euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-225-75.eucalyptus.internal	pending	sshlogin0		m1.medium	2017-11-14T02:35:40.066Z	cluster1	monitoring-disabled	172.16.34.88	10.10.225.75			instance-store					hvm			sg-3ccc590e	x86_64
+TAG	instance	i-94738b3a	euca:node	172.16.34.40
+[root@group18-41 ~]# euca-describe-instances
+RESERVATION	r-6218eddf	000412364163	default
+INSTANCE	i-94738b3a	emi-1ecde757	euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-225-75.eucalyptus.internal	pending	sshlogin0		m1.medium	2017-11-14T02:35:40.066Z	cluster1	monitoring-disabled	172.16.34.88	10.10.225.75			instance-store					hvm			sg-3ccc590e	x86_64
+TAG	instance	i-94738b3a	euca:node	172.16.34.40
+[root@group18-41 ~]# euca-describe-instances
+RESERVATION	r-6218eddf	000412364163	default
+INSTANCE	i-94738b3a	emi-1ecde757	euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-225-75.eucalyptus.internal	pending	sshlogin0		m1.medium	2017-11-14T02:35:40.066Z	cluster1	monitoring-disabled	172.16.34.88	10.10.225.75			instance-store					hvm			sg-3ccc590e	x86_64
+TAG	instance	i-94738b3a	euca:node	172.16.34.40
+[root@group18-41 ~]# euca-describe-instances
+RESERVATION	r-6218eddf	000412364163	default
+INSTANCE	i-94738b3a	emi-1ecde757	euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-225-75.eucalyptus.internal	pending	sshlogin0		m1.medium	2017-11-14T02:35:40.066Z	cluster1	monitoring-disabled	172.16.34.88	10.10.225.75			instance-store					hvm			sg-3ccc590e	x86_64
+TAG	instance	i-94738b3a	euca:node	172.16.34.40
+[root@group18-41 ~]# euca-describe-instances
+RESERVATION	r-6218eddf	000412364163	default
+INSTANCE	i-94738b3a	emi-1ecde757	euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-225-75.eucalyptus.internal	running	sshlogin0		m1.medium	2017-11-14T02:35:40.066Z	cluster1	monitoring-disabled	172.16.34.88	10.10.225.75			instance-store					hvm			sg-3ccc590e	x86_64
+TAG	instance	i-94738b3a	euca:node	172.16.34.40
+[root@group18-41 ~]# ssh -i sshlogin centos@uca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu
+ssh: Could not resolve hostname uca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu: Name or service not known
+[root@group18-41 ~]# ssh -i sshlogin centos@euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+It is also possible that a host key has just been changed.
+The fingerprint for the RSA key sent by the remote host is
+64:19:27:e2:e6:a0:cc:39:12:44:20:46:a5:db:e4:cb.
+Please contact your system administrator.
+Add correct host key in /root/.ssh/known_hosts to get rid of this message.
+Offending RSA key in /root/.ssh/known_hosts:4
+RSA host key for euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu has changed and you have requested strict checking.
+Host key verification failed.
+[root@group18-41 ~]# vi /root/.ssh/known_hosts
+[root@group18-41 ~]# ssh -i sshlogin centos@euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu
+The authenticity of host 'euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu (172.16.34.88)' can't be established.
+RSA key fingerprint is 64:19:27:e2:e6:a0:cc:39:12:44:20:46:a5:db:e4:cb.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu,172.16.34.88' (RSA) to the list of known hosts.
+[centos@euca-10-10-225-75 ~]$ ping 172.16.34.88
+PING 172.16.34.88 (172.16.34.88) 56(84) bytes of data.
+64 bytes from 172.16.34.88: icmp_seq=1 ttl=63 time=0.455 ms
+64 bytes from 172.16.34.88: icmp_seq=2 ttl=63 time=0.477 ms
+64 bytes from 172.16.34.88: icmp_seq=3 ttl=63 time=0.468 ms
+^C
+--- 172.16.34.88 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2854ms
+rtt min/avg/max/mdev = 0.455/0.466/0.477/0.026 ms
+[centos@euca-10-10-225-75 ~]$ exit
+logout
+Connection to euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu closed.
+[root@group18-41 ~]# euca-associate-address -i i-94738b3a 172.16.34.88
+ADDRESS	172.16.34.88	i-94738b3a
+[root@group18-41 ~]# ping 172.16.34.88
+PING 172.16.34.88 (172.16.34.88) 56(84) bytes of data.
+64 bytes from 172.16.34.88: icmp_seq=1 ttl=64 time=0.306 ms
+64 bytes from 172.16.34.88: icmp_seq=2 ttl=64 time=0.267 ms
+64 bytes from 172.16.34.88: icmp_seq=3 ttl=64 time=0.283 ms
+64 bytes from 172.16.34.88: icmp_seq=4 ttl=64 time=0.288 ms
+64 bytes from 172.16.34.88: icmp_seq=5 ttl=64 time=0.288 ms
+^C
+--- 172.16.34.88 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4000ms
+rtt min/avg/max/mdev = 0.267/0.286/0.306/0.019 ms
+[root@group18-41 ~]# ssh -i sshlogin centos@uca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu
+ssh: Could not resolve hostname uca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu: Name or service not known
+[root@group18-41 ~]# ssh -i sshlogin centos@euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu
+Last login: Tue Nov 14 08:38:13 2017 from 172.16.34.88
+[centos@euca-10-10-225-75 ~]$ sudo ls /etc/yum.repos.d/
+CentOS-Base.repo       CentOS-fasttrack.repo  CentOS-Vault.repo
+CentOS-Debuginfo.repo  CentOS-Media.repo
+[centos@euca-10-10-225-75 ~]$ sudo gedit /etc/yum.repos.d/
+sudo: gedit: command not found
+[centos@euca-10-10-225-75 ~]$ sudo vi /etc/yum.repos.d/
+[centos@euca-10-10-225-75 ~]$ sudo vi /etc/yum.repos.d/local6.repo
+[centos@euca-10-10-225-75 ~]$ sudo ls /etc/yum.repos.d/
+CentOS-Base.repo       CentOS-fasttrack.repo  CentOS-Vault.repo
+CentOS-Debuginfo.repo  CentOS-Media.repo      local6.repo
+[centos@euca-10-10-225-75 ~]$ sudo rm -rf /etc/yum.repos.d/CentOS-Base.repo
+[centos@euca-10-10-225-75 ~]$ sudo rm -rf /etc/yum.repos.d/CentOS-fasttrack.repo
+[centos@euca-10-10-225-75 ~]$ sudo rm -rf /etc/yum.repos.d/CentOS-Vault.repo
+[centos@euca-10-10-225-75 ~]$ sudo rm -rf /etc/yum.repos.d/CentOS-Debuginfo.repo
+[centos@euca-10-10-225-75 ~]$ sudo rm -rf /etc/yum.repos.d/ CentOS-Media.repo
+[centos@euca-10-10-225-75 ~]$ sudo ls /etc/yum.repos.d/ls: cannot access /etc/yum.repos.d/: No such file or directory
+[centos@euca-10-10-225-75 ~]$ sudo mkdir /etc/yum.repos.d/
+[centos@euca-10-10-225-75 ~]$ sudo vi /etc/yum.repos.d/local6.repo
+[centos@euca-10-10-225-75 ~]$ sudo ls /etc/yum.repos.d/
+local6.repo
+[centos@euca-10-10-225-75 ~]$ yum install httpd -y
+Loaded plugins: fastestmirror, presto
+You need to be root to perform this command.
+[centos@euca-10-10-225-75 ~]$ sudo yum install httpd -y
+Loaded plugins: fastestmirror, presto
+Setting up Install Process
+centos-local                                             | 3.7 kB     00:00     
+centos-local/primary_db                                  | 4.6 MB     00:00     
+Resolving Dependencies
+--> Running transaction check
+---> Package httpd.x86_64 0:2.2.15-45.el6.centos will be installed
+--> Processing Dependency: httpd-tools = 2.2.15-45.el6.centos for package: httpd-2.2.15-45.el6.centos.x86_64
+--> Processing Dependency: apr-util-ldap for package: httpd-2.2.15-45.el6.centos.x86_64
+--> Processing Dependency: /etc/mime.types for package: httpd-2.2.15-45.el6.centos.x86_64
+--> Processing Dependency: libaprutil-1.so.0()(64bit) for package: httpd-2.2.15-45.el6.centos.x86_64
+--> Processing Dependency: libapr-1.so.0()(64bit) for package: httpd-2.2.15-45.el6.centos.x86_64
+--> Running transaction check
+---> Package apr.x86_64 0:1.3.9-5.el6_2 will be installed
+---> Package apr-util.x86_64 0:1.3.9-3.el6_0.1 will be installed
+---> Package apr-util-ldap.x86_64 0:1.3.9-3.el6_0.1 will be installed
+---> Package httpd-tools.x86_64 0:2.2.15-45.el6.centos will be installed
+---> Package mailcap.noarch 0:2.1.31-2.el6 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package           Arch       Version                    Repository        Size
+================================================================================
+Installing:
+ httpd             x86_64     2.2.15-45.el6.centos       centos-local     829 k
+Installing for dependencies:
+ apr               x86_64     1.3.9-5.el6_2              centos-local     123 k
+ apr-util          x86_64     1.3.9-3.el6_0.1            centos-local      87 k
+ apr-util-ldap     x86_64     1.3.9-3.el6_0.1            centos-local      15 k
+ httpd-tools       x86_64     2.2.15-45.el6.centos       centos-local      77 k
+ mailcap           noarch     2.1.31-2.el6               centos-local      27 k
+
+Transaction Summary
+================================================================================
+Install       6 Package(s)
+
+Total download size: 1.1 M
+Installed size: 3.6 M
+Downloading Packages:
+Setting up and reading Presto delta metadata
+Processing delta metadata
+Package(s) data still to download: 1.1 M
+(1/6): apr-1.3.9-5.el6_2.x86_64.rpm                      | 123 kB     00:00     
+(2/6): apr-util-1.3.9-3.el6_0.1.x86_64.rpm               |  87 kB     00:00     
+(3/6): apr-util-ldap-1.3.9-3.el6_0.1.x86_64.rpm          |  15 kB     00:00     
+(4/6): httpd-2.2.15-45.el6.centos.x86_64.rpm             | 829 kB     00:00     
+(5/6): httpd-tools-2.2.15-45.el6.centos.x86_64.rpm       |  77 kB     00:00     
+(6/6): mailcap-2.1.31-2.el6.noarch.rpm                   |  27 kB     00:00     
+--------------------------------------------------------------------------------
+Total                                           7.7 MB/s | 1.1 MB     00:00     
+Running rpm_check_debug
+Running Transaction Test
+Transaction Test Succeeded
+Running Transaction
+  Installing : apr-1.3.9-5.el6_2.x86_64                                     1/6 
+  Installing : apr-util-1.3.9-3.el6_0.1.x86_64                              2/6 
+  Installing : apr-util-ldap-1.3.9-3.el6_0.1.x86_64                         3/6 
+  Installing : httpd-tools-2.2.15-45.el6.centos.x86_64                      4/6 
+  Installing : mailcap-2.1.31-2.el6.noarch                                  5/6 
+  Installing : httpd-2.2.15-45.el6.centos.x86_64                            6/6 
+  Verifying  : httpd-2.2.15-45.el6.centos.x86_64                            1/6 
+  Verifying  : apr-util-ldap-1.3.9-3.el6_0.1.x86_64                         2/6 
+  Verifying  : apr-1.3.9-5.el6_2.x86_64                                     3/6 
+  Verifying  : mailcap-2.1.31-2.el6.noarch                                  4/6 
+  Verifying  : httpd-tools-2.2.15-45.el6.centos.x86_64                      5/6 
+  Verifying  : apr-util-1.3.9-3.el6_0.1.x86_64                              6/6 
+
+Installed:
+  httpd.x86_64 0:2.2.15-45.el6.centos                                           
+
+Dependency Installed:
+  apr.x86_64 0:1.3.9-5.el6_2                                                    
+  apr-util.x86_64 0:1.3.9-3.el6_0.1                                             
+  apr-util-ldap.x86_64 0:1.3.9-3.el6_0.1                                        
+  httpd-tools.x86_64 0:2.2.15-45.el6.centos                                     
+  mailcap.noarch 0:2.1.31-2.el6                                                 
+
+Complete!
+[centos@euca-10-10-225-75 ~]$ sudo service httpd start
+Starting httpd: httpd: apr_sockaddr_info_get() failed for euca-10-10-225-75
+httpd: Could not reliably determine the server's fully qualified domain name, using 127.0.0.1 for ServerName
+                                                           [  OK  ]
+[centos@euca-10-10-225-75 ~]$ ntpdate -u 172.16.2.5
+-bash: ntpdate: command not found
+[centos@euca-10-10-225-75 ~]$ sudo ntpdate -u 172.16.2.5
+sudo: ntpdate: command not found
+[centos@euca-10-10-225-75 ~]$ yum install ntpdate -y
+Loaded plugins: fastestmirror, presto
+You need to be root to perform this command.
+[centos@euca-10-10-225-75 ~]$ sudo yum install ntpdate -y
+Loaded plugins: fastestmirror, presto
+Setting up Install Process
+Determining fastest mirrors
+Resolving Dependencies
+--> Running transaction check
+---> Package ntpdate.x86_64 0:4.2.6p5-5.el6.centos will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package       Arch         Version                    Repository          Size
+================================================================================
+Installing:
+ ntpdate       x86_64       4.2.6p5-5.el6.centos       centos-local        77 k
+
+Transaction Summary
+================================================================================
+Install       1 Package(s)
+
+Total download size: 77 k
+Installed size: 123 k
+Downloading Packages:
+Setting up and reading Presto delta metadata
+Processing delta metadata
+Package(s) data still to download: 77 k
+ntpdate-4.2.6p5-5.el6.centos.x86_64.rpm                  |  77 kB     00:00     
+Running rpm_check_debug
+Running Transaction Test
+Transaction Test Succeeded
+Running Transaction
+  Installing : ntpdate-4.2.6p5-5.el6.centos.x86_64                          1/1 
+  Verifying  : ntpdate-4.2.6p5-5.el6.centos.x86_64                          1/1 
+
+Installed:
+  ntpdate.x86_64 0:4.2.6p5-5.el6.centos                                         
+
+Complete!
+[centos@euca-10-10-225-75 ~]$ sudo ntpdate -u 172.16.2.5
+14 Nov 02:50:42 ntpdate[1521]: step time server 172.16.2.5 offset -21599.617909 sec
+[centos@euca-10-10-225-75 ~]$ exit
+logout
+Connection to euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu closed.
+[root@group18-41 ~]# euc-describe-images
+bash: euc-describe-images: command not found...
+[root@group18-41 ~]# euca-describe-images
+IMAGE	emi-1ecde757	mybucket/CentOS-6-x86_64-GenericCloud.raw.manifest.xml	000412364163	available	private	x86_64	machine				instance-store	hvm	
+IMAGE	emi-2251795c	mybucket/trusty-server-cloudimg-amd64-disk1.img.manifest.xml	000412364163	available	private	x86_64	machine			instance-store	hvm	
+IMAGE	emi-814625ff	mybucket/trusty-server-cloudimg-amd64-disk1.img.manifest.xml	000412364163	available	private	x86_64	machine			instance-store	hvm	
+IMAGE	emi-9d7a3577	mybucket/trusty-server-cloudimg-amd64-disk1.img.manifest.xml	000412364163	available	private	x86_64	machine			instance-store	hvm	
+IMAGE	emi-f7925a1c	eucalyptus-service-image-v2.69/eucalyptus-service-image.raw.manifest.xml	000412364163	available	private	x86_64	machineinstance-store	hvm	
+TAG	image	emi-f7925a1c	provides	imaging,loadbalancing
+TAG	image	emi-f7925a1c	type	eucalyptus-service-image
+TAG	image	emi-f7925a1c	version	2.69
+[root@group18-41 ~]# euca-run-instances -k sshlogin emi-1ecde757 -t m1.medium
+RESERVATION	r-12350860	000412364163	default
+INSTANCE	i-2a56bcfd	emi-1ecde757	euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-225-85.eucalyptus.internal	pending	sshlogin0		m1.medium	2017-11-14T02:52:13.927Z	cluster1	monitoring-disabled	172.16.34.89	10.10.225.85			instance-store					hvm			sg-3ccc590e	x86_64
+[root@group18-41 ~]# euca-describe-instances
+RESERVATION	r-12350860	000412364163	default
+INSTANCE	i-2a56bcfd	emi-1ecde757	euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-225-85.eucalyptus.internal	pending	sshlogin0		m1.medium	2017-11-14T02:52:13.927Z	cluster1	monitoring-disabled	172.16.34.89	10.10.225.85			instance-store					hvm			sg-3ccc590e	x86_64
+TAG	instance	i-2a56bcfd	euca:node	172.16.34.40
+RESERVATION	r-6218eddf	000412364163	default
+INSTANCE	i-94738b3a	emi-1ecde757	euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-225-75.eucalyptus.internal	running	sshlogin0		m1.medium	2017-11-14T02:35:40.066Z	cluster1	monitoring-disabled	172.16.34.88	10.10.225.75			instance-store					hvm			sg-3ccc590e	x86_64
+TAG	instance	i-94738b3a	euca:node	172.16.34.40
+[root@group18-41 ~]# euca-describe-instances
+RESERVATION	r-12350860	000412364163	default
+INSTANCE	i-2a56bcfd	emi-1ecde757	euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-225-85.eucalyptus.internal	running	sshlogin0		m1.medium	2017-11-14T02:52:13.927Z	cluster1	monitoring-disabled	172.16.34.89	10.10.225.85			instance-store					hvm			sg-3ccc590e	x86_64
+TAG	instance	i-2a56bcfd	euca:node	172.16.34.40
+RESERVATION	r-6218eddf	000412364163	default
+INSTANCE	i-94738b3a	emi-1ecde757	euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-225-75.eucalyptus.internal	running	sshlogin0		m1.medium	2017-11-14T02:35:40.066Z	cluster1	monitoring-disabled	172.16.34.88	10.10.225.75			instance-store					hvm			sg-3ccc590e	x86_64
+TAG	instance	i-94738b3a	euca:node	172.16.34.40
+[root@group18-41 ~]# ssh -i sshlogin csentos@euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+It is also possible that a host key has just been changed.
+The fingerprint for the RSA key sent by the remote host is
+14:37:6e:b3:ee:5b:db:c2:ec:60:48:6a:ff:2c:7e:67.
+Please contact your system administrator.
+Add correct host key in /root/.ssh/known_hosts to get rid of this message.
+Offending RSA key in /root/.ssh/known_hosts:5
+RSA host key for euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu has changed and you have requested strict checking.
+Host key verification failed.
+[root@group18-41 ~]# vi /root/.ssh/known_hosts
+[root@group18-41 ~]# ssh -i sshlogin csentos@euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu
+The authenticity of host 'euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu (172.16.34.89)' can't be established.
+RSA key fingerprint is 14:37:6e:b3:ee:5b:db:c2:ec:60:48:6a:ff:2c:7e:67.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu,172.16.34.89' (RSA) to the list of known hosts.
+Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
+[root@group18-41 ~]# ssh -i sshlogin centos@euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu
+[centos@euca-10-10-225-85 ~]$ sudo ls /etc/yum.repos.d/
+CentOS-Base.repo       CentOS-fasttrack.repo  CentOS-Vault.repo
+CentOS-Debuginfo.repo  CentOS-Media.repo
+[centos@euca-10-10-225-85 ~]$ sudo vi /etc/yum.repos.d/local6.repo
+[centos@euca-10-10-225-85 ~]$ sudo rm -rf /etc/yum.repos.d/CentOS-Base.repo
+[centos@euca-10-10-225-85 ~]$ sudo rm -rf /etc/yum.repos.d/CentOS-fasttrack.repo
+[centos@euca-10-10-225-85 ~]$ sudo rm -rf /etc/yum.repos.d/CentOS-Vault.repo
+[centos@euca-10-10-225-85 ~]$ sudo rm -rf /etc/yum.repos.d/CentOS-Debuginfo.repo
+[centos@euca-10-10-225-85 ~]$ sudo ls /etc/yum.repos.d/CentOS-Media.repo  local6.repo
+[centos@euca-10-10-225-85 ~]$ sudo rm -rf /etc/yum.repos.d/CentOS-Media.repo
+[centos@euca-10-10-225-85 ~]$ sudo ls /etc/yum.repos.d/
+local6.repo
+[centos@euca-10-10-225-85 ~]$ sudo yum install httpd -y
+Loaded plugins: fastestmirror, presto
+Setting up Install Process
+centos-local                                             | 3.7 kB     00:00     
+centos-local/primary_db                                  | 4.6 MB     00:00     
+Resolving Dependencies
+--> Running transaction check
+---> Package httpd.x86_64 0:2.2.15-45.el6.centos will be installed
+--> Processing Dependency: httpd-tools = 2.2.15-45.el6.centos for package: httpd-2.2.15-45.el6.centos.x86_64
+--> Processing Dependency: apr-util-ldap for package: httpd-2.2.15-45.el6.centos.x86_64
+--> Processing Dependency: /etc/mime.types for package: httpd-2.2.15-45.el6.centos.x86_64
+--> Processing Dependency: libaprutil-1.so.0()(64bit) for package: httpd-2.2.15-45.el6.centos.x86_64
+--> Processing Dependency: libapr-1.so.0()(64bit) for package: httpd-2.2.15-45.el6.centos.x86_64
+--> Running transaction check
+---> Package apr.x86_64 0:1.3.9-5.el6_2 will be installed
+---> Package apr-util.x86_64 0:1.3.9-3.el6_0.1 will be installed
+---> Package apr-util-ldap.x86_64 0:1.3.9-3.el6_0.1 will be installed
+---> Package httpd-tools.x86_64 0:2.2.15-45.el6.centos will be installed
+---> Package mailcap.noarch 0:2.1.31-2.el6 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package           Arch       Version                    Repository        Size
+================================================================================
+Installing:
+ httpd             x86_64     2.2.15-45.el6.centos       centos-local     829 k
+Installing for dependencies:
+ apr               x86_64     1.3.9-5.el6_2              centos-local     123 k
+ apr-util          x86_64     1.3.9-3.el6_0.1            centos-local      87 k
+ apr-util-ldap     x86_64     1.3.9-3.el6_0.1            centos-local      15 k
+ httpd-tools       x86_64     2.2.15-45.el6.centos       centos-local      77 k
+ mailcap           noarch     2.1.31-2.el6               centos-local      27 k
+
+Transaction Summary
+================================================================================
+Install       6 Package(s)
+
+Total download size: 1.1 M
+Installed size: 3.6 M
+Downloading Packages:
+Setting up and reading Presto delta metadata
+Processing delta metadata
+Package(s) data still to download: 1.1 M
+(1/6): apr-1.3.9-5.el6_2.x86_64.rpm                      | 123 kB     00:00     
+(2/6): apr-util-1.3.9-3.el6_0.1.x86_64.rpm               |  87 kB     00:00     
+(3/6): apr-util-ldap-1.3.9-3.el6_0.1.x86_64.rpm          |  15 kB     00:00     
+(4/6): httpd-2.2.15-45.el6.centos.x86_64.rpm             | 829 kB     00:00     
+(5/6): httpd-tools-2.2.15-45.el6.centos.x86_64.rpm       |  77 kB     00:00     
+(6/6): mailcap-2.1.31-2.el6.noarch.rpm                   |  27 kB     00:00     
+--------------------------------------------------------------------------------
+Total                                            27 MB/s | 1.1 MB     00:00     
+Running rpm_check_debug
+Running Transaction Test
+Transaction Test Succeeded
+Running Transaction
+  Installing : apr-1.3.9-5.el6_2.x86_64                                     1/6 
+  Installing : apr-util-1.3.9-3.el6_0.1.x86_64                              2/6 
+  Installing : apr-util-ldap-1.3.9-3.el6_0.1.x86_64                         3/6 
+  Installing : httpd-tools-2.2.15-45.el6.centos.x86_64                      4/6 
+  Installing : mailcap-2.1.31-2.el6.noarch                                  5/6 
+  Installing : httpd-2.2.15-45.el6.centos.x86_64                            6/6 
+  Verifying  : httpd-2.2.15-45.el6.centos.x86_64                            1/6 
+  Verifying  : apr-util-ldap-1.3.9-3.el6_0.1.x86_64                         2/6 
+  Verifying  : apr-1.3.9-5.el6_2.x86_64                                     3/6 
+  Verifying  : mailcap-2.1.31-2.el6.noarch                                  4/6 
+  Verifying  : httpd-tools-2.2.15-45.el6.centos.x86_64                      5/6 
+  Verifying  : apr-util-1.3.9-3.el6_0.1.x86_64                              6/6 
+
+Installed:
+  httpd.x86_64 0:2.2.15-45.el6.centos                                           
+
+Dependency Installed:
+  apr.x86_64 0:1.3.9-5.el6_2                                                    
+  apr-util.x86_64 0:1.3.9-3.el6_0.1                                             
+  apr-util-ldap.x86_64 0:1.3.9-3.el6_0.1                                        
+  httpd-tools.x86_64 0:2.2.15-45.el6.centos                                     
+  mailcap.noarch 0:2.1.31-2.el6                                                 
+
+Complete!
+[centos@euca-10-10-225-85 ~]$ sudo service httpd start
+Starting httpd: httpd: apr_sockaddr_info_get() failed for euca-10-10-225-85
+httpd: Could not reliably determine the server's fully qualified domain name, using 127.0.0.1 for ServerName
+                                                           [  OK  ]
+[centos@euca-10-10-225-85 ~]$ sudo yum install ntpdate -y
+Loaded plugins: fastestmirror, presto
+Setting up Install Process
+Determining fastest mirrors
+Resolving Dependencies
+--> Running transaction check
+---> Package ntpdate.x86_64 0:4.2.6p5-5.el6.centos will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package       Arch         Version                    Repository          Size
+================================================================================
+Installing:
+ ntpdate       x86_64       4.2.6p5-5.el6.centos       centos-local        77 k
+
+Transaction Summary
+================================================================================
+Install       1 Package(s)
+
+Total download size: 77 k
+Installed size: 123 k
+Downloading Packages:
+Setting up and reading Presto delta metadata
+Processing delta metadata
+Package(s) data still to download: 77 k
+ntpdate-4.2.6p5-5.el6.centos.x86_64.rpm                  |  77 kB     00:00     
+Running rpm_check_debug
+Running Transaction Test
+Transaction Test Succeeded
+Running Transaction
+  Installing : ntpdate-4.2.6p5-5.el6.centos.x86_64                          1/1 
+  Verifying  : ntpdate-4.2.6p5-5.el6.centos.x86_64                          1/1 
+
+Installed:
+  ntpdate.x86_64 0:4.2.6p5-5.el6.centos                                         
+
+Complete!
+[centos@euca-10-10-225-85 ~]$ sudo ntpdate -u 172.16.2.5
+14 Nov 03:03:08 ntpdate[1500]: step time server 172.16.2.5 offset -21599.787301 sec
+[centos@euca-10-10-225-85 ~]$ exit
+logout
+Connection to euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu closed.
+[root@group18-41 ~]# euca-authorize -P tcp -p 80 default
+GROUP	default
+PERMISSION	default	ALLOWS	tcp	80	80	FROM	CIDR	0.0.0.0/0
+[root@group18-41 ~]# euca-describe-availability-zones 
+AVAILABILITYZONE	cluster1	available	
+[root@group18-41 ~]# eulb-create-lb -z cluster1 -l "lb-port=80, protocol=HTTP, instance-port=80, instance-protocol=HTTP" MyLoadBalancer
+eulb-create-lb: error (DuplicateAccessPointName): LoadBalancer name already exists for this account. Please choose another name.
+[root@group18-41 ~]# eulb-create-lb -z cluster1 -l "lb-port=80, protocol=HTTP, instance-port=80, instance-protocol=HTTP" MyLoadBalancer2
+DNS_NAME	MyLoadBalancer2-000412364163.lb.group18-41.cse.cloudlab.bu
+[root@group18-41 ~]# eulb-register-instances-with-lb --instances i-i-94738b3a MyLoadBalancer2
+eulb-register-instances-with-lb: error (InvalidConfigurationRequest): 'i-i-94738b3a' for parameter Instances.member.1.InstanceId is invalid
+[root@group18-41 ~]# eulb-register-instances-with-lb --instances i-94738b3a MyLoadBalancer2
+INSTANCE	i-94738b3a
+[root@group18-41 ~]# eulb-register-instances-with-lb --instances i-2a56bcfd MyLoadBalancer2
+INSTANCE	i-94738b3a
+INSTANCE	i-2a56bcfd
+[root@group18-41 ~]# ssh -i sshlogin csentos@euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu
+Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
+[root@group18-41 ~]# ssh -i sshlogin centos@euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu
+Last login: Tue Nov 14 08:57:42 2017 from 172.16.34.89
+[centos@euca-10-10-225-85 ~]$ sudo sestatus
+SELinux status:                 enabled
+SELinuxfs mount:                /selinux
+Current mode:                   enforcing
+Mode from config file:          enforcing
+Policy version:                 24
+Policy from config file:        targeted
+[centos@euca-10-10-225-85 ~]$ exit
+logout
+Connection to euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu closed.
+[root@group18-41 ~]# ssh -i sshlogin centos@euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu
+Last login: Tue Nov 14 08:41:21 2017 from 172.16.34.88
+[centos@euca-10-10-225-75 ~]$ sudo sestatus
+SELinux status:                 enabled
+SELinuxfs mount:                /selinux
+Current mode:                   enforcing
+Mode from config file:          enforcing
+Policy version:                 24
+Policy from config file:        targeted
+[centos@euca-10-10-225-75 ~]$ sudo vim /etc/selinux/config
+sudo: vim: command not found
+[centos@euca-10-10-225-75 ~]$ sudo vi /etc/selinux/config
+[centos@euca-10-10-225-75 ~]$ sudo reboot
+
+Broadcast message from centos@euca-10-10-225-75
+	(/dev/pts/0) at 3:26 ...
+
+The system is going down for reboot NOW!
+[centos@euca-10-10-225-75 ~]$ Connection to euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu closed by remote host.
+Connection to euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu closed.
+[root@group18-41 ~]# ssh -i sshlogin centos@euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu
+ssh: connect to host euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu port 22: Connection timed out
+[root@group18-41 ~]# euca-describe-images
+IMAGE	emi-1ecde757	mybucket/CentOS-6-x86_64-GenericCloud.raw.manifest.xml	000412364163	available	private	x86_64	machine				instance-store	hvm	
+IMAGE	emi-2251795c	mybucket/trusty-server-cloudimg-amd64-disk1.img.manifest.xml	000412364163	available	private	x86_64	machine			instance-store	hvm	
+IMAGE	emi-814625ff	mybucket/trusty-server-cloudimg-amd64-disk1.img.manifest.xml	000412364163	available	private	x86_64	machine			instance-store	hvm	
+IMAGE	emi-9d7a3577	mybucket/trusty-server-cloudimg-amd64-disk1.img.manifest.xml	000412364163	available	private	x86_64	machine			instance-store	hvm	
+IMAGE	emi-a46d4666	mybucket2/centos.raw.manifest.xml	000412364163	available	private	x86_64	machine				instance-store	hvm	
+IMAGE	emi-f7925a1c	eucalyptus-service-image-v2.69/eucalyptus-service-image.raw.manifest.xml	000412364163	available	private	x86_64	machineinstance-store	hvm	
+TAG	image	emi-f7925a1c	provides	imaging,loadbalancing
+TAG	image	emi-f7925a1c	type	eucalyptus-service-image
+TAG	image	emi-f7925a1c	version	2.69
+[root@group18-41 ~]# euca-run-instances -k sshlogin emi-a46d4666
+RESERVATION	r-12a169f7	000412364163	default
+INSTANCE	i-674751b7	emi-a46d4666	euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-225-85.eucalyptus.internal	pending	sshlogin0		m1.small	2017-11-14T04:06:08.248Z	cluster1	monitoring-disabled	172.16.34.88	10.10.225.85			instance-store					hvm			sg-3ccc590e	x86_64
+[root@group18-41 ~]# euca-describe-instances
+RESERVATION	r-265f69a3	000412364163	default
+INSTANCE	i-073ca4ac	emi-a46d4666	euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-225-78.eucalyptus.internal	running	sshlogin0		m1.small	2017-11-14T03:54:56.124Z	cluster1	monitoring-disabled	172.16.34.89	10.10.225.78			instance-store					hvm			sg-3ccc590e	x86_64
+TAG	instance	i-073ca4ac	euca:node	172.16.34.40
+RESERVATION	r-12a169f7	000412364163	default
+INSTANCE	i-674751b7	emi-a46d4666	euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-225-85.eucalyptus.internal	pending	sshlogin0		m1.small	2017-11-14T04:06:08.248Z	cluster1	monitoring-disabled	172.16.34.88	10.10.225.85			instance-store					hvm			sg-3ccc590e	x86_64
+TAG	instance	i-674751b7	euca:node	172.16.34.40
+[root@group18-41 ~]# euca-describe-instances
+RESERVATION	r-265f69a3	000412364163	default
+INSTANCE	i-073ca4ac	emi-a46d4666	euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-225-78.eucalyptus.internal	running	sshlogin0		m1.small	2017-11-14T03:54:56.124Z	cluster1	monitoring-disabled	172.16.34.89	10.10.225.78			instance-store					hvm			sg-3ccc590e	x86_64
+TAG	instance	i-073ca4ac	euca:node	172.16.34.40
+RESERVATION	r-12a169f7	000412364163	default
+INSTANCE	i-674751b7	emi-a46d4666	euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-225-85.eucalyptus.internal	running	sshlogin0		m1.small	2017-11-14T04:06:08.248Z	cluster1	monitoring-disabled	172.16.34.88	10.10.225.85			instance-store					hvm			sg-3ccc590e	x86_64
+TAG	instance	i-674751b7	euca:node	172.16.34.40
+[root@group18-41 ~]# ping 172.16.34.88
+PING 172.16.34.88 (172.16.34.88) 56(84) bytes of data.
+64 bytes from 172.16.34.88: icmp_seq=1 ttl=64 time=0.304 ms
+64 bytes from 172.16.34.88: icmp_seq=2 ttl=64 time=0.269 ms
+64 bytes from 172.16.34.88: icmp_seq=3 ttl=64 time=0.269 ms
+^C
+--- 172.16.34.88 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 1999ms
+rtt min/avg/max/mdev = 0.269/0.280/0.304/0.025 ms
+[root@group18-41 ~]# ssh -i sshlogin csentos@euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+It is also possible that a host key has just been changed.
+The fingerprint for the RSA key sent by the remote host is
+ff:ce:62:1b:2d:7e:68:9c:be:f9:fd:07:05:fd:9f:22.
+Please contact your system administrator.
+Add correct host key in /root/.ssh/known_hosts to get rid of this message.
+Offending RSA key in /root/.ssh/known_hosts:5
+RSA host key for euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu has changed and you have requested strict checking.
+Host key verification failed.
+[root@group18-41 ~]# vi /root/.ssh/known_hosts
+[root@group18-41 ~]# ssh -i sshlogin csentos@euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu
+The authenticity of host 'euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu (172.16.34.88)' can't be established.
+RSA key fingerprint is ff:ce:62:1b:2d:7e:68:9c:be:f9:fd:07:05:fd:9f:22.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu,172.16.34.88' (RSA) to the list of known hosts.
+Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
+[root@group18-41 ~]# ssh -i sshlogin centos@euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu
+Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
+[root@group18-41 ~]# ssh -i sshlogin centos@euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu
+Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
+[root@group18-41 ~]# ssh -i sshlogin @euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu
+usage: ssh [-1246AaCfgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec]
+           [-D [bind_address:]port] [-E log_file] [-e escape_char]
+           [-F configfile] [-I pkcs11] [-i identity_file]
+           [-L [bind_address:]port:host:hostport] [-l login_name] [-m mac_spec]
+           [-O ctl_cmd] [-o option] [-p port]
+           [-Q cipher | cipher-auth | mac | kex | key]
+           [-R [bind_address:]port:host:hostport] [-S ctl_path] [-W host:port]
+           [-w local_tun[:remote_tun]] [user@]hostname [command]
+[root@group18-41 ~]# ssh -i sshlogin euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu
+[root@euca-10-10-225-85 ~]# ls /etc/yum.repos.d/
+CentOS-Base.repo       CentOS-Media.repo  epel.repo
+CentOS-Debuginfo.repo  CentOS-Vault.repo  epel-testing.repo
+[root@euca-10-10-225-85 ~]# gedit /etc/yum.repos.d/
+-bash: gedit: command not found
+[root@euca-10-10-225-85 ~]# vi /etc/yum.repos.d/local6.repo
+[root@euca-10-10-225-85 ~]# ls /etc/yum.repos.d/
+CentOS-Base.repo       CentOS-Media.repo  epel.repo          local6.repo
+CentOS-Debuginfo.repo  CentOS-Vault.repo  epel-testing.repo
+[root@euca-10-10-225-85 ~]# rm -rf /etc/yum.repos.d/CentOS-Base.repo
+[root@euca-10-10-225-85 ~]# rm -rf /etc/yum.repos.d/CentOS-Media.repo
+[root@euca-10-10-225-85 ~]# rm -rf /etc/yum.repos.d/epel.repo
+[root@euca-10-10-225-85 ~]# rm -rf /etc/yum.repos.d/CentOS-Debuginfo.repo
+[root@euca-10-10-225-85 ~]# rm -rf /etc/yum.repos.d/CentOS-Vault.repo
+[root@euca-10-10-225-85 ~]# ls /etc/yum.repos.d/
+epel-testing.repo  local6.repo
+[root@euca-10-10-225-85 ~]# rm -rf /etc/yum.repos.d/epel-testing.repo
+[root@euca-10-10-225-85 ~]# yum install httpd -y
+Loaded plugins: fastestmirror
+Determining fastest mirrors
+centos-local                                               | 3.7 kB     00:00     
+centos-local/primary_db                                    | 4.6 MB     00:00     
+Setting up Install Process
+Resolving Dependencies
+--> Running transaction check
+---> Package httpd.x86_64 0:2.2.15-45.el6.centos will be installed
+--> Processing Dependency: httpd-tools = 2.2.15-45.el6.centos for package: httpd-2.2.15-45.el6.centos.x86_64
+--> Processing Dependency: apr-util-ldap for package: httpd-2.2.15-45.el6.centos.x86_64
+--> Processing Dependency: /etc/mime.types for package: httpd-2.2.15-45.el6.centos.x86_64
+--> Processing Dependency: libaprutil-1.so.0()(64bit) for package: httpd-2.2.15-45.el6.centos.x86_64
+--> Processing Dependency: libapr-1.so.0()(64bit) for package: httpd-2.2.15-45.el6.centos.x86_64
+--> Running transaction check
+---> Package apr.x86_64 0:1.3.9-5.el6_2 will be installed
+---> Package apr-util.x86_64 0:1.3.9-3.el6_0.1 will be installed
+---> Package apr-util-ldap.x86_64 0:1.3.9-3.el6_0.1 will be installed
+---> Package httpd-tools.x86_64 0:2.2.15-45.el6.centos will be installed
+---> Package mailcap.noarch 0:2.1.31-2.el6 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+==================================================================================
+ Package            Arch        Version                   Repository         Size
+==================================================================================
+Installing:
+ httpd              x86_64      2.2.15-45.el6.centos      centos-local      829 k
+Installing for dependencies:
+ apr                x86_64      1.3.9-5.el6_2             centos-local      123 k
+ apr-util           x86_64      1.3.9-3.el6_0.1           centos-local       87 k
+ apr-util-ldap      x86_64      1.3.9-3.el6_0.1           centos-local       15 k
+ httpd-tools        x86_64      2.2.15-45.el6.centos      centos-local       77 k
+ mailcap            noarch      2.1.31-2.el6              centos-local       27 k
+
+Transaction Summary
+==================================================================================
+Install       6 Package(s)
+
+Total download size: 1.1 M
+Installed size: 3.6 M
+Downloading Packages:
+(1/6): apr-1.3.9-5.el6_2.x86_64.rpm                        | 123 kB     00:00     
+(2/6): apr-util-1.3.9-3.el6_0.1.x86_64.rpm                 |  87 kB     00:00     
+(3/6): apr-util-ldap-1.3.9-3.el6_0.1.x86_64.rpm            |  15 kB     00:00     
+(4/6): httpd-2.2.15-45.el6.centos.x86_64.rpm               | 829 kB     00:00     
+(5/6): httpd-tools-2.2.15-45.el6.centos.x86_64.rpm         |  77 kB     00:00     
+(6/6): mailcap-2.1.31-2.el6.noarch.rpm                     |  27 kB     00:00     
+----------------------------------------------------------------------------------
+Total                                              18 MB/s | 1.1 MB     00:00     
+Running rpm_check_debug
+Running Transaction Test
+Transaction Test Succeeded
+Running Transaction
+  Installing : apr-1.3.9-5.el6_2.x86_64                                       1/6 
+  Installing : apr-util-1.3.9-3.el6_0.1.x86_64                                2/6 
+  Installing : apr-util-ldap-1.3.9-3.el6_0.1.x86_64                           3/6 
+  Installing : httpd-tools-2.2.15-45.el6.centos.x86_64                        4/6 
+  Installing : mailcap-2.1.31-2.el6.noarch                                    5/6 
+  Installing : httpd-2.2.15-45.el6.centos.x86_64                              6/6 
+  Verifying  : httpd-2.2.15-45.el6.centos.x86_64                              1/6 
+  Verifying  : apr-util-ldap-1.3.9-3.el6_0.1.x86_64                           2/6 
+  Verifying  : apr-1.3.9-5.el6_2.x86_64                                       3/6 
+  Verifying  : mailcap-2.1.31-2.el6.noarch                                    4/6 
+  Verifying  : httpd-tools-2.2.15-45.el6.centos.x86_64                        5/6 
+  Verifying  : apr-util-1.3.9-3.el6_0.1.x86_64                                6/6 
+
+Installed:
+  httpd.x86_64 0:2.2.15-45.el6.centos                                             
+
+Dependency Installed:
+  apr.x86_64 0:1.3.9-5.el6_2                                                      
+  apr-util.x86_64 0:1.3.9-3.el6_0.1                                               
+  apr-util-ldap.x86_64 0:1.3.9-3.el6_0.1                                          
+  httpd-tools.x86_64 0:2.2.15-45.el6.centos                                       
+  mailcap.noarch 0:2.1.31-2.el6                                                   
+
+Complete!
+[root@euca-10-10-225-85 ~]# service httpd start
+Starting httpd: httpd: apr_sockaddr_info_get() failed for euca-10-10-225-85
+httpd: Could not reliably determine the server's fully qualified domain name, using 127.0.0.1 for ServerName
+                                                           [  OK  ]
+[root@euca-10-10-225-85 ~]# yum install ntpdate -y
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+Setting up Install Process
+Resolving Dependencies
+--> Running transaction check
+---> Package ntpdate.x86_64 0:4.2.6p5-1.el6.centos will be updated
+--> Processing Dependency: ntpdate = 4.2.6p5-1.el6.centos for package: ntp-4.2.6p5-1.el6.centos.x86_64
+---> Package ntpdate.x86_64 0:4.2.6p5-5.el6.centos will be an update
+--> Running transaction check
+---> Package ntp.x86_64 0:4.2.6p5-1.el6.centos will be updated
+---> Package ntp.x86_64 0:4.2.6p5-5.el6.centos will be an update
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+==================================================================================
+ Package       Arch         Version                      Repository          Size
+==================================================================================
+Updating:
+ ntpdate       x86_64       4.2.6p5-5.el6.centos         centos-local        77 k
+Updating for dependencies:
+ ntp           x86_64       4.2.6p5-5.el6.centos         centos-local       595 k
+
+Transaction Summary
+==================================================================================
+Upgrade       2 Package(s)
+
+Total download size: 672 k
+Downloading Packages:
+(1/2): ntp-4.2.6p5-5.el6.centos.x86_64.rpm                 | 595 kB     00:00     
+(2/2): ntpdate-4.2.6p5-5.el6.centos.x86_64.rpm             |  77 kB     00:00     
+----------------------------------------------------------------------------------
+Total                                              13 MB/s | 672 kB     00:00     
+Running rpm_check_debug
+Running Transaction Test
+Transaction Test Succeeded
+Running Transaction
+  Updating   : ntpdate-4.2.6p5-5.el6.centos.x86_64                            1/4 
+  Updating   : ntp-4.2.6p5-5.el6.centos.x86_64                                2/4 
+  Cleanup    : ntp-4.2.6p5-1.el6.centos.x86_64                                3/4 
+  Cleanup    : ntpdate-4.2.6p5-1.el6.centos.x86_64                            4/4 
+  Verifying  : ntpdate-4.2.6p5-5.el6.centos.x86_64                            1/4 
+  Verifying  : ntp-4.2.6p5-5.el6.centos.x86_64                                2/4 
+  Verifying  : ntpdate-4.2.6p5-1.el6.centos.x86_64                            3/4 
+  Verifying  : ntp-4.2.6p5-1.el6.centos.x86_64                                4/4 
+
+Updated:
+  ntpdate.x86_64 0:4.2.6p5-5.el6.centos                                           
+
+Dependency Updated:
+  ntp.x86_64 0:4.2.6p5-5.el6.centos                                               
+
+Complete!
+[root@euca-10-10-225-85 ~]# ntpdate -u 172.16.2.5
+14 Nov 04:19:44 ntpdate[1276]: step time server 172.16.2.5 offset -21599.398395 sec
+[root@euca-10-10-225-85 ~]# exit
+logout
+Connection to euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu closed.
+[root@group18-41 ~]# euca-describe-instances
+RESERVATION	r-265f69a3	000412364163	default
+INSTANCE	i-073ca4ac	emi-a46d4666	euca-172-16-34-89.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-225-78.eucalyptus.internal	running	sshlogin	0m1.small	2017-11-14T03:54:56.124Z	cluster1				monitoring-disabled	172.16.34.89	10.10.225.78			instance-store					hvm			sg-3ccc590e		x86_64
+TAG	instance	i-073ca4ac	euca:node	172.16.34.40
+RESERVATION	r-12a169f7	000412364163	default
+INSTANCE	i-674751b7	emi-a46d4666	euca-172-16-34-88.eucalyptus.group18-41.cse.cloudlab.bu	euca-10-10-225-85.eucalyptus.internal	running	sshlogin	0m1.small	2017-11-14T04:06:08.248Z	cluster1				monitoring-disabled	172.16.34.88	10.10.225.85			instance-store					hvm			sg-3ccc590e		x86_64
+TAG	instance	i-674751b7	euca:node	172.16.34.40
+[root@group18-41 ~]# eulb-register-instances-with-lb --instances i-073ca4ac MyLoadBalancer
+INSTANCE	i-f5c30c2a
+INSTANCE	i-c967c07c
+INSTANCE	i-073ca4ac
+[root@group18-41 ~]# eulb-register-instances-with-lb --instances i-674751b7 MyLoadBalancer
+INSTANCE	i-674751b7
+INSTANCE	i-f5c30c2a
+INSTANCE	i-c967c07c
+INSTANCE	i-073ca4ac
+[root@group18-41 ~]# eulb-register-instances-with-lb --instances i-073ca4ac MyLoadBalancer2
+INSTANCE	i-94738b3a
+INSTANCE	i-2a56bcfd
+INSTANCE	i-073ca4ac
+[root@group18-41 ~]# eulb-register-instances-with-lb --instances i-674751b7 MyLoadBalancer2
+INSTANCE	i-674751b7
+INSTANCE	i-94738b3a
+INSTANCE	i-2a56bcfd
+INSTANCE	i-073ca4ac
+[root@group18-41 ~]# eulb-describe-instance-health MyLoadBalancer2
+INSTANCE	i-674751b7	InService
+INSTANCE	i-073ca4ac	InService
+INSTANCE	i-94738b3a	Unknown
+INSTANCE	i-2a56bcfd	Unknown
+[root@group18-41 ~]# 
+
