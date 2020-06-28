@@ -10,20 +10,26 @@ Instruction:
 
 Lab3 actually includes 
 
+
+
 # NODE CONTROLLER (NC) CONFIGURATION
 
+
 # STORAGE CONTROLLER (SC) CONFIGURATION
+
 
 # GLOBAL CONFIGURATION
 
 # NETWORKING CONFIGURATION
 
-# CLUSTER CONTROLLER (CC) / NODE CONTROLLER (NC) SHARED CONFIGURATION
+
+# CLUSTER CONTROLLER (CC) / 
+NODE CONTROLLER (NC) SHARED CONFIGURATION
+
 
 #Yum Installation
+
 
 # The set of networking settings that apply to a cloud varies based on
  its networking mode
  
-
-
