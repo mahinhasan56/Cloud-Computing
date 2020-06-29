@@ -13,24 +13,19 @@ Lab3 actually includes
 
 
 
-Node Controller Configuration
+#Node Controller Configuration
 
-Storage controller Configuration
+#Storage controller Configuration
 
-Global Configuration
+#Global Configuration
 
-Networking configuration
+#Networking configuration
 
-Node Controller Shared configuration
-
-Yum Installation
-
-NODE CONTROLLER (NC) SHARED CONFIGURATION
-
+#Node Controller Shared configuration
 
 #Yum Installation
 
-The set of networking settings that apply to a cloud varies based on its networking mode
+#The set of networking settings that apply to a cloud varies based on its networking mode
 
 its networking mode
  
